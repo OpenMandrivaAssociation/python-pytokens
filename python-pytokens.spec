@@ -3,7 +3,7 @@
 
 Name:		python-pytokens
 Version:	0.4.1
-Release:	1
+Release:	2
 Summary:	A Fast, spec compliant Python 3.14+ tokenizer that runs on older Pythons
 License:	MIT License
 Group:		Development/Python
@@ -15,7 +15,6 @@ BuildArch:	noarch
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python%{pyver}dist(build)
 BuildRequires:	python%{pyver}dist(installer)
-BuildRequires:	python%{pyver}dist(mypy)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(wheel)
@@ -31,6 +30,8 @@ A Fast, spec compliant Python 3.14+ tokenizer that runs on older Pythons.
 rm -rf src/%{module}.egg-info
 # We dont need to run upstream coverage tests
 sed -i 's/--cov --cov-report=term-missing//g' pyproject.toml
+# Build the pure-Python tokenizer. mypyc would build-require mypy.
+sed -i 's/, "mypy"//' pyproject.toml
 
 %build -p
 # disable building with mypyc librt
